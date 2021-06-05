@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension StockViewController: UISearchBarDelegate {
+extension ViewController: UISearchBarDelegate {
     
     func setUpSearchBar() {
         searchBar.searchBarStyle = UISearchBar.Style.prominent
