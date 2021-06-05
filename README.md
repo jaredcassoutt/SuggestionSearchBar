@@ -6,7 +6,6 @@ This is a search bar that inherits from UISearchBar. It has a UITableView popula
 To use, implement the following in your desired UIViewController:
 ```
 import UIKit
-import Charts
 
 class ViewController: UIViewController {
 
