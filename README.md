@@ -39,50 +39,29 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension StockViewController: SuggestionSearchBarProtocol, UISearchBarDelegate {
     
-    func setUpSearchBar() {
-        searchBar.searchBarStyle = UISearchBar.Style.prominent
-        searchBar.placeholder = "Search..."
-        searchBar.sizeToFit()
-        searchBar.isTranslucent = false
-        searchBar.backgroundImage = UIImage()
-        searchBar.delegate = self
-        searchBar.layer.zPosition = 1000
-        navigationItem.titleView = searchBar
+    var searchPlaceholder: String {
+        get {return "Search..."}
+        set {}
     }
     
-    func setUpSuggestionsListContainer() {
-        self.view.addSubview(suggestionsListContainer)
-        
-        NSLayoutConstraint.activate([
-            suggestionsListContainer.topAnchor.constraint(equalTo: self.view.topAnchor),
-            suggestionsListContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            suggestionsListContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-        ])
+    var dropDownItems: [String] {
+        get {return allPossibilities}
+        set {}
     }
     
-    func actionForSearch(searchText: String) {
-        //Place the action here that you want to occur when you hit search or when you click an item.
+    func searchClicked(text: String) {
+        //put what ever you want here to happen when search is clicked
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchBar.endEditing(true)
-        searchText = searchBar.text
-        actionForSearch(searchText: searchText)
+        searchClicked(text: searchBar.text ?? "")
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
-    }
-    
-    func tickerClickedAction() {
-        searchBar.endEditing(true)
-        searchText = allPossibilities.filter {$0.contains(searchBar.text?.uppercased() ?? "")}[Constants.DataPassing.cellClicked]
-        actionForSearch(searchText: searchText)
-    }
-    
+    }   
 }
 
 ```
