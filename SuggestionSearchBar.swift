@@ -1,4 +1,53 @@
+//
+//  SuggestionSearchBar.swift
+//
+//  Created by Jared Cassoutt on 5/25/21.
+//
+
 import UIKit
+
+struct PassingData {
+    static var cellClicked = 0
+}
+
+protocol SuggestionSearchBarProtocol: UISearchBarDelegate {
+    var suggestionsListContainer: UIStackView { get set }
+    var searchBar: SuggestionSearchBar { get set }
+    var searchPlaceholder: String { get set }
+    var dropDownItems: [String] { get set }
+    
+    func searchClicked(text: String)
+}
+
+extension SuggestionSearchBarProtocol where Self: UIViewController {
+    func setUpSearchBar() {
+        searchBar.searchBarStyle = UISearchBar.Style.prominent
+        searchBar.placeholder = searchPlaceholder
+        searchBar.sizeToFit()
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        searchBar.delegate = self
+        searchBar.layer.zPosition = 1000
+        navigationItem.titleView = searchBar
+    }
+    
+    func setUpSuggestionsListContainer() {
+        self.view.addSubview(suggestionsListContainer)
+        NSLayoutConstraint.activate([
+            suggestionsListContainer.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            suggestionsListContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            suggestionsListContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+        ])
+    }
+    
+    func searchClicked(text: String) {
+        //what do you want to happen when search is clicked
+    }
+    
+    func dropDownItemClickedAction() {
+        searchClicked(text: dropDownItems.filter {$0.contains(searchBar.text?.uppercased() ?? "")}[PassingData.cellClicked])
+    }
+}
 
 class SuggestionSearchBar: UISearchBar, UISearchBarDelegate {
     
@@ -87,7 +136,7 @@ extension SuggestionSearchBar: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //add method that fills in and searches based on the text in that indexpath.row
         print("selected")
-        Constants.DataPassing.cellClicked = indexPath.row
+        PassingData.cellClicked = indexPath.row
         clickAction()
     }
     
