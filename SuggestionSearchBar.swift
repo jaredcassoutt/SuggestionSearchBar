@@ -33,8 +33,11 @@ extension SuggestionSearchBarProtocol where Self: UIViewController {
     
     func setUpSuggestionsListContainer() {
         self.view.addSubview(suggestionsListContainer)
+        // The search bar sits in the navigation bar, which is not in this view's
+        // hierarchy yet when this runs from viewDidLoad, so a constraint to the bar
+        // can't be activated. The top of the safe area is just below the navigation bar.
         NSLayoutConstraint.activate([
-            suggestionsListContainer.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            suggestionsListContainer.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             suggestionsListContainer.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             suggestionsListContainer.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])

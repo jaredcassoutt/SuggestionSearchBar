@@ -3,19 +3,13 @@ This is a search bar that inherits from UISearchBar. It has a UITableView popula
 
 
 ## Usage
-In order to implement the SuggestionSearchBar.swift file should be added to your project. Next the following should be added to your view controller where ```allPossibilities``` should be the list that you want to be filtered through in a search. Additionally, ```actionForSearch()``` should include the code you wish to occur when a you select search or select a item in the list.
+In order to implement it, the SuggestionSearchBar.swift file should be added to your project. Next the following should be added to your view controller where ```allPossibilities``` should be the list that you want to be filtered through in a search. The search uppercases what the user types before matching, so list the items in uppercase. Additionally, ```searchClicked(text:)``` should include the code you wish to occur when you select search or select an item in the list.
 ```
 import UIKit
 
-struct Constants {  
-    struct DataPassing {
-        static var cellClicked = 0
-    }
-}
-
 class ViewController: UIViewController {
 
-    var allPossibilities = ["green","yellow","blue","red"]
+    var allPossibilities = ["GREEN","YELLOW","BLUE","RED"]
     
     lazy var suggestionsListContainer: UIStackView = {
         let stackView = UIStackView()
@@ -29,7 +23,7 @@ class ViewController: UIViewController {
         del: self,
         suggestionsListContainer: suggestionsListContainer,
         dropDownPossibilities: allPossibilities,
-        clickAction: tickerClickedAction
+        clickAction: dropDownItemClickedAction
     )
     
     override func viewDidLoad() {
@@ -39,7 +33,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension StockViewController: SuggestionSearchBarProtocol, UISearchBarDelegate {
+extension ViewController: SuggestionSearchBarProtocol, UISearchBarDelegate {
     
     var searchPlaceholder: String {
         get {return "Search..."}
